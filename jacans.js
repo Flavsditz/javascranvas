@@ -19,10 +19,16 @@
  function drawHorizontal(event, canvas, ctx){
 	mouse = getMousePosition(event);
 	ctx.moveTo(mouse[0], mouse[1]);
-	ctx.lineTo(mouse[0], canvas.width);
+	ctx.lineTo(canvas.height, mouse[1]);
 	ctx.stroke();
  }
  
+ function drawVertical(event, canvas, ctx){
+	mouse = getMousePosition(event);
+	ctx.moveTo(mouse[0], mouse[1]);
+	ctx.lineTo(mouse[0], canvas.width);
+	ctx.stroke();
+ }
  
  // Helper function
  function getMousePosition(e)
