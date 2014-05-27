@@ -57,13 +57,13 @@ $(document).ready(function() {
 	
 	// Canvas
 	$("#mainCanvas").on("mousedown", function(event) {
-		drawHorizontal(event, canvas, canvas_context);
+		brain(event, canvas, canvas_context);
 	});
 	$("#mainCanvas").on("mousemove", function(event) {
-		drawHorizontal(event, canvas, canvas_context);
+		brain(event, canvas, canvas_context);
 	});
 	$("#mainCanvas").on("mouseup", function(event) {
-		drawHorizontal(event, canvas, canvas_context);
+		brain(event, canvas, canvas_context);
 	});
 
 	// Buttons
@@ -79,6 +79,8 @@ $(document).ready(function() {
 	
 	//
 });
+
+function brain()
 
 function drawHorizontal(event, canvas, ctx) {
 	mouse = getMousePosition(event);
