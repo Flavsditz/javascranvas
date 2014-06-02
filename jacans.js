@@ -6,14 +6,17 @@
 /*******************************************************************************
  * GLOBALS
  ******************************************************************************/
-
+var canvas;
+var canvas_context;
+var tmpCanvas; 
+var tmpContext;
+ 
 $(document).ready(function() {
 
 	/*
 	 * Get canvas and context
 	 */
-	var canvas = $("#mainCanvas")[0];
-	var canvas_context;
+	canvas = $("#mainCanvas")[0];
 
 	if (!canvas) {
 		console.log('Error: I cannot find the canvas element!');
@@ -38,30 +41,30 @@ $(document).ready(function() {
 	/*
 	 * Create a temporary canvas to be drawn upon
 	 */
-	var tmpCanvas = document.createElement('canvas');
+	tmpCanvas = document.createElement('canvas');
 
-	}
+	
 
 	tmpCanvas.id = 'tmpCanvas';
 	tmpCanvas.width = canvas.width;
 	tmpCanvas.height = canvas.height;
 	$("#mainCanvas").parent().append(tmpCanvas);
 
-	var tmpContext = canvas.getContext('2d');
+	tmpContext = canvas.getContext('2d');
 
 	/*
 	 * Set up listeners
 	 */
 	
 	// Canvas
-	$("#mainCanvas").on("mousedown", function(event) {
-		brain(event, canvas, canvas_context);
+	$("#tmpCanvas").on("mousedown", function(event) {
+		brain(event);
 	});
-	$("#mainCanvas").on("mousemove", function(event) {
-		brain(event, canvas, canvas_context);
+	$("#tmpCanvas").on("mousemove", function(event) {
+		brain(event);
 	});
-	$("#mainCanvas").on("mouseup", function(event) {
-		brain(event, canvas, canvas_context);
+	$("#tmpCanvas").on("mouseup", function(event) {
+		brain(event);
 	});
 
 	// Buttons
@@ -79,28 +82,17 @@ $(document).ready(function() {
 });
 
 function brain(event){
-	mouse = getMousePosition(event);
-	line = $('.tool .active').attr('name');
+	getMousePosition(event);
 	
-	if(tools[line]){
+	if($('.tool.active')[0]){
+		line = new tools[$('.tool.active').attr('name')]();
+		
 		var func = line[event.type];
-		func(event);
+		
+		if(func){
+			func(event);
+		}
 	}
-}
-
-function drawHorizontal(event, canvas, ctx) {
-	mouse = getMousePosition(event);
-	ctx.beginPath();
-	ctx.moveTo(0, mouse[1]);
-	ctx.lineTo(canvas.width, mouse[1]);
-	ctx.stroke();
-}
-
-function drawVertical(event, canvas, ctx) {
-	mouse = getMousePosition(event);
-	ctx.moveTo(mouse[0], 0);
-	ctx.lineTo(mouse[0], canvas.height);
-	ctx.stroke();
 }
 
   // This object holds the implementation of each drawing tool.
@@ -114,8 +106,10 @@ function drawVertical(event, canvas, ctx) {
     // This is called when you start holding down the mouse button.
     // This starts the pencil drawing.
     this.mousedown = function (ev) {
-        context.beginPath();
-        context.moveTo(ev._x, ev._y);
+        tmpContext.beginPath();
+		tmpContext.moveTo(0, ev.mouseY);
+		tmpContext.lineTo(tmpCanvas.width, ev.mouseY);
+		tmpContext.stroke();
         tool.started = true;
     };
 
@@ -124,8 +118,11 @@ function drawVertical(event, canvas, ctx) {
     // the mouse button).
     this.mousemove = function (ev) {
       if (tool.started) {
-        context.lineTo(ev._x, ev._y);
-        context.stroke();
+		clearCanvas(tmpCanvas, tmpContext);
+        tmpContext.beginPath();
+		tmpContext.moveTo(0, ev.mouseY);
+		tmpContext.lineTo(tmpCanvas.width, ev.mouseY);
+		tmpContext.stroke();
       }
     };
 
@@ -144,17 +141,15 @@ function drawVertical(event, canvas, ctx) {
  * Helper functions
  ******************************************************************************/
 function getMousePosition(e) {
-	var mouseX, mouseY;
-
+	
 	if (e.offsetX) {
-		mouseX = e.offsetX;
-		mouseY = e.offsetY;
+		e.mouseX = e.offsetX;
+		e.mouseY = e.offsetY;
 	} else if (e.layerX) {
-		mouseX = e.layerX;
-		mouseY = e.layerY;
+		e.mouseX = e.layerX;
+		e.mouseY = e.layerY;
 	}
 
-	return [ mouseX, mouseY ]
 }
 
 // Clear canvas of any line
@@ -164,7 +159,7 @@ function clearCanvas(canvas, ctx) {
 
 
 // Update the image
-function img_update (ctx_main, ctx_tmp, canvas) {
-	ctx_main.drawImage(canvas, 0, 0);
-	ctx_tmp.clearRect(0, 0, canvas.width, canvas.height);
+function img_update () {
+	canvas_context.drawImage(tmpCanvas, 0, 0);
+	tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
 }
