@@ -11,6 +11,7 @@ var canvas_context;
 var tmpCanvas; 
 var tmpContext;
 var toolChoice;
+var lines = [];
  
 $(document).ready(function() {
 
@@ -72,6 +73,9 @@ $(document).ready(function() {
 	$("#clearButton").on("click", function(event) {
 		clearCanvas(canvas, canvas_context);
 	});
+	$("#backButton").on("click", function(event) {
+		popLine();
+	});
 	$("#horizButton").on("click", function(event) {
 		$(".tool").removeClass("active");
 		$(this).addClass("active");
@@ -132,6 +136,7 @@ function brain(event){
     // This is called when you release the mouse button.
     this.mouseup = function (ev) {
       if (tool.started) {
+    	lines.push([0, ev.mouseY, tmpCanvas.width, ev.mouseY]);
         tool.mousemove(ev);
         tool.started = false;
         img_update();
@@ -170,6 +175,7 @@ function brain(event){
     // This is called when you release the mouse button.
     this.mouseup = function (ev) {
       if (tool.started) {
+    	lines.push([ ev.mouseX, 0, ev.mouseX, tmpCanvas.height]);
         tool.mousemove(ev);
         tool.started = false;
         img_update();
@@ -199,8 +205,23 @@ function clearCanvas(canvas, ctx) {
 }
 
 
-// Update the image
+// Update the image by redrawing the lines
 function img_update () {
-	canvas_context.drawImage(tmpCanvas, 0, 0);
+	clearCanvas(canvas, canvas_context);
+	lines.forEach(function(elem){
+		canvas_context.beginPath();
+		canvas_context.moveTo(elem[0], elem[1]);
+		canvas_context.lineTo(elem[2], elem[3]);
+		canvas_context.stroke();
+	});
 	tmpContext.clearRect(0, 0, tmpCanvas.width, tmpCanvas.height);
 }
+
+// Delete last draw image and redraw rest
+function popLine() {
+	lines.pop();
+	img_update();
+}
+
+
+
