@@ -71,6 +71,7 @@ $(document).ready(function() {
 
 	// Buttons
 	$("#clearButton").on("click", function(event) {
+		lines =  []
 		clearCanvas(canvas, canvas_context);
 	});
 	$("#backButton").on("click", function(event) {
