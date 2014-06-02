@@ -10,6 +10,7 @@ var canvas;
 var canvas_context;
 var tmpCanvas; 
 var tmpContext;
+var toolChoice;
  
 $(document).ready(function() {
 
@@ -50,7 +51,7 @@ $(document).ready(function() {
 	tmpCanvas.height = canvas.height;
 	$("#mainCanvas").parent().append(tmpCanvas);
 
-	tmpContext = canvas.getContext('2d');
+	tmpContext = tmpCanvas.getContext('2d');
 
 	/*
 	 * Set up listeners
@@ -72,10 +73,14 @@ $(document).ready(function() {
 		clearCanvas(canvas, canvas_context);
 	});
 	$("#horizButton").on("click", function(event) {
-		$(this).toggleClass("active");
+		$(".tool").removeClass("active");
+		$(this).addClass("active");
+		toolChoice = new tools[$('.tool.active').attr('name')]();
 	});
 	$("#vertButton").on("click", function(event) {
-		$(this).toggleClass("active");
+		$(".tool").removeClass("active");
+		$(this).addClass("active");
+		toolChoice = new tools[$('.tool.active').attr('name')]();
 	});
 	
 	//
@@ -84,10 +89,8 @@ $(document).ready(function() {
 function brain(event){
 	getMousePosition(event);
 	
-	if($('.tool.active')[0]){
-		line = new tools[$('.tool.active').attr('name')]();
-		
-		var func = line[event.type];
+	if(tools[$('.tool.active').attr('name')]){
+		var func = toolChoice[event.type];
 		
 		if(func){
 			func(event);
@@ -98,7 +101,7 @@ function brain(event){
   // This object holds the implementation of each drawing tool.
   var tools = {};
 
-  // The drawing pencil.
+//The horizontal line tool
   tools.horizontalLine = function () {
     var tool = this;
     this.started = false;
@@ -122,6 +125,44 @@ function brain(event){
         tmpContext.beginPath();
 		tmpContext.moveTo(0, ev.mouseY);
 		tmpContext.lineTo(tmpCanvas.width, ev.mouseY);
+		tmpContext.stroke();
+      }
+    };
+
+    // This is called when you release the mouse button.
+    this.mouseup = function (ev) {
+      if (tool.started) {
+        tool.mousemove(ev);
+        tool.started = false;
+        img_update();
+      }
+    };
+  };
+  
+//The vertical line tool
+  tools.verticalLine = function () {
+    var tool = this;
+    this.started = false;
+
+    // This is called when you start holding down the mouse button.
+    // This starts the pencil drawing.
+    this.mousedown = function (ev) {
+        tmpContext.beginPath();
+		tmpContext.moveTo(ev.mouseX, 0);
+		tmpContext.lineTo(ev.mouseX, tmpCanvas.height);
+		tmpContext.stroke();
+        tool.started = true;
+    };
+
+    // This function is called every time you move the mouse. Obviously, it only 
+    // draws if the tool.started state is set to true (when you are holding down 
+    // the mouse button).
+    this.mousemove = function (ev) {
+      if (tool.started) {
+		clearCanvas(tmpCanvas, tmpContext);
+        tmpContext.beginPath();
+        tmpContext.moveTo(ev.mouseX, 0);
+		tmpContext.lineTo(ev.mouseX, tmpCanvas.height);
 		tmpContext.stroke();
       }
     };
