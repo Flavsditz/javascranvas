@@ -50,7 +50,7 @@ $(document).ready(function() {
 	tmpCanvas.id = 'tmpCanvas';
 	tmpCanvas.width = canvas.width;
 	tmpCanvas.height = canvas.height;
-	$("#mainCanvas").parent().append(tmpCanvas);
+	$(canvas).parent().append(tmpCanvas);
 
 	tmpContext = tmpCanvas.getContext('2d');
 
@@ -59,13 +59,13 @@ $(document).ready(function() {
 	 */
 	
 	// Canvas
-	$("#tmpCanvas").on("mousedown", function(event) {
+	$(tmpCanvas).on("mousedown", function(event) {
 		brain(event);
 	});
-	$("#tmpCanvas").on("mousemove", function(event) {
+	$(tmpCanvas).on("mousemove", function(event) {
 		brain(event);
 	});
-	$("#tmpCanvas").on("mouseup", function(event) {
+	$(tmpCanvas).on("mouseup", function(event) {
 		brain(event);
 	});
 
