@@ -106,7 +106,7 @@ function brain(event){
   // This object holds the implementation of each drawing tool.
   var tools = {};
 
-//The horizontal line tool
+ //The horizontal line tool
   tools.horizontalLine = function () {
     var tool = this;
     this.started = false;
