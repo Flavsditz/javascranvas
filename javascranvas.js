@@ -48,12 +48,12 @@
 					return;
 				}
 
-				if (!mainCanvas.getContext) {
+				if (!mainCanvas[0].getContext) {
 					console.log('Error: no canvas.getContext!');
 					
 					return;
 				} else {
-					mainContext = mainCanvas.getContext("2d");
+					mainContext = mainCanvas[0].getContext("2d");
 				}
 
 				if (!mainContext) {
@@ -64,14 +64,14 @@
 				
 				
 				// Create a temporary canvas to be drawn upon
-				tmpCanvas = document.createElement('canvas');
+				tmpCanvas = $(document.createElement('canvas'));
 
-				tmpCanvas.id = 'tmpCanvas';
-				tmpCanvas.width = mainCanvas.width;
-				tmpCanvas.height = mainCanvas.height;
+				tmpCanvas.attr("id", 'tmpCanvas');
+				tmpCanvas.attr("width","mainCanvas.width");
+				tmpCanvas.attr("height", "mainCanvas.height");
 				mainCanvas.parent().append(tmpCanvas);
 
-				tmpContext = tmpCanvas.getContext('2d');
+				tmpContext = tmpCanvas[0].getContext('2d');
 				
 				
 				// Set up listeners for canvas element
@@ -120,7 +120,7 @@
 			"lineChange" : function(line){
 				$(".tool").removeClass("active");
 				line.addClass("active");
-				toolChoice = new tools[$('.tool.active').attr('name')]();
+				toolChoice = new tools.$('.tool.active').attr('name')();
 			},
 				
 			/**
@@ -132,7 +132,7 @@
 			"brain" : function(ev){
 				methods.getMousePosition(event);
 				
-				if(tools.[$('.tool.active').attr('name')]){
+				if(tools.$('.tool.active').attr('name')){
 					var func = toolChoice[event.type];
 					
 					if(func){
@@ -248,13 +248,13 @@
 	
 			    // This is called when you start holding down the mouse button.
 			    // This starts the pencil drawing.
-			    "mousedown" : function (ev) {
+			    this.mousedown = function (ev) {
 			        tmpContext.beginPath();
 					tmpContext.moveTo(0, ev.mouseY);
 					tmpContext.lineTo(tmpCanvas.width, ev.mouseY);
 					tmpContext.stroke();
 			        tool.started = true;
-			    };
+			    },
 	
 			    // This function is called every time you move the mouse.
 				// Obviously,
@@ -262,7 +262,7 @@
 			    // draws if the tool.started state is set to true (when you are
 				// holding down
 			    // the mouse button).
-			    "mousemove" : function (ev) {
+			    this.mousemove = function (ev) {
 			      if (tool.started) {
 					clearCanvas(tmpCanvas, tmpContext);
 			        tmpContext.beginPath();
@@ -270,17 +270,17 @@
 					tmpContext.lineTo(tmpCanvas.width, ev.mouseY);
 					tmpContext.stroke();
 			      }
-			    };
+			    },
 	
 			    // This is called when you release the mouse button.
-			    "mouseup" : function (ev) {
+			    this.mouseup = function (ev) {
 			      if (tool.started) {
 			    	lines.push([0, ev.mouseY, tmpCanvas.width, ev.mouseY]);
 			        tool.mousemove(ev);
 			        tool.started = false;
 			        img_update();
 			      }
-			    };
+			    }
 			  },
 			  
 			    /**
@@ -295,13 +295,13 @@
 	
 			    // This is called when you start holding down the mouse button.
 			    // This starts the pencil drawing.
-			    "mousedown" : function (ev) {
+			    this.mousedown = function (ev) {
 			        tmpContext.beginPath();
-					tmpContext.moveTo(ev.mouseX, 0);
-					tmpContext.lineTo(ev.mouseX, tmpCanvas.height);
+					tmpContext.moveTo(0, ev.mouseY);
+					tmpContext.lineTo(tmpCanvas.width, ev.mouseY);
 					tmpContext.stroke();
 			        tool.started = true;
-			    };
+			    },
 	
 			    // This function is called every time you move the mouse.
 				// Obviously,
@@ -309,20 +309,20 @@
 			    // draws if the tool.started state is set to true (when you are
 				// holding down
 			    // the mouse button).
-			    "mousemove" : function (ev) {
+			    this.mousemove = function (ev) {
 			      if (tool.started) {
 					clearCanvas(tmpCanvas, tmpContext);
 			        tmpContext.beginPath();
-			        tmpContext.moveTo(ev.mouseX, 0);
-					tmpContext.lineTo(ev.mouseX, tmpCanvas.height);
+					tmpContext.moveTo(0, ev.mouseY);
+					tmpContext.lineTo(tmpCanvas.width, ev.mouseY);
 					tmpContext.stroke();
 			      }
-			    };
+			    },
 	
 			    // This is called when you release the mouse button.
-			    "mouseup" : function (ev) {
+			    this.mouseup = function (ev) {
 			      if (tool.started) {
-			    	lines.push([ ev.mouseX, 0, ev.mouseX, tmpCanvas.height]);
+			    	lines.push([0, ev.mouseY, tmpCanvas.width, ev.mouseY]);
 			        tool.mousemove(ev);
 			        tool.started = false;
 			        img_update();
@@ -335,7 +335,7 @@
             if (options) {
                 $.extend(settings, options);
             }
-            var target = this;
+            var target = $(this);
             
             methods.init(target);
            
