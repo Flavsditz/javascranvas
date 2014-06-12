@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<!-- CSS -->
+<link rel="stylesheet" href="./css/bootstrap.min.css">
+<link rel="stylesheet" href="./css/font-awesome.min.css">
+<link rel="stylesheet" href="./css/fotoaday.css">
+
+<title>Home</title>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+	<!-- Navbar -->
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">Foto-A-Day</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="index.html">Home</a></li>
+					<li class="active"><a href="#">Profile</a></li>
+					<li><a href="foto.html">Foto</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+
+	<!-- CONTENT -->
+	<div class="container">
+		<section id="container">
+			<canvas WIDTH="500" HEIGHT="400" ID="mainCanvas">
+				Canvas tag not supported
+			</canvas>
+		</section>
+		<div class="controls">
+			<button type="Button" id="clearButton" class="btn btn-default"> 
+				<span class="fa fa-eraser" style="vertical-align:middle"></span>
+  			</button>
+  			
+			<button type="Button" id="backButton" class="btn btn-default">
+				<span class="fa fa-rotate-left" style="vertical-align:middle"></span>
+  			</button> 
+			
+			<button type="Button" id="horizButton" name="horizontalLine" class="tool btn btn-default"> 
+				<span class="fa fa-arrows-h" style="vertical-align:middle"></span>
+  			</button>
+  			
+			<button type="Button" id="vertButton" name="verticalLine" class="tool btn btn-default">
+				<span class="fa fa-arrows-v"></span>
+  			</button>
+		</div>
+	
+	</div>
+
+	<!-- JS -->
+	<script type="text/javascript" src="./js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./js/jacans.js"></script>
+</body>
+</html>
