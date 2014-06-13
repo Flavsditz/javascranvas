@@ -51,10 +51,48 @@
 	</nav>
 
 	<!-- CONTENT -->
-
-
+	<div class="container">
+		<div class="webcamWrapper">
+			<video autoplay class="webcamHolder"></video>
+			<div class="securityWarning alert alert-warning" style="text-align: center;" ><i class="fa fa-arrow-up"></i>  Please allow the access to your camera above  <i class="fa fa-arrow-up"></i></div>
+		</div>
+		<div class="row">
+			<div class="controls fotoOnly">
+				<!-- TODO: add webcam select -->
+				<button type="Button" id="takePic" class="btn btn-default"> 
+					<span class="fa fa-camera fa-3x"></span>
+	  			</button>
+	  			<button type="Button" id="toggleRef" class="btn btn-default"> 
+					<span class="fa fa-table fa-3x"></span>
+	  			</button>
+			</div>
+			<div class="controls saveOrCancel" style="display: none;">
+				<button type="Button" id="acceptBtn" class="btn btn-success .btn-lg"> 
+					<span class="fa fa-check fa-2x">  Save</span>
+				</button>
+				<button type="Button" id="cancelBtn" class="btn btn-danger .btn-lg"> 
+					<span class="fa fa-times fa-2x">  Cancel</span>
+				</button>
+			</div>
+			<div class="controls editOnly" style="display: none;">
+				<button type="Button" id="resizeTool" class="btn btn-default"> 
+					<span class="fa fa-arrows-alt fa-2x"></span>
+	  			</button>
+	  			<button type="Button" id="moveTool" class="btn btn-default"> 
+					<span class="fa fa-hand-o-up fa-2x"></span>
+	  			</button>
+	  			<button type="Button" id="rotateTool" class="btn btn-default"> 
+					<span class="fa fa-rotate-right fa-2x"></span>
+	  			</button>
+			</div>
+			
+		</div>
+	</div>
+	
+	
 	<!-- JS -->
 	<script type="text/javascript" src="./js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="./js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="./js/camera.js"></script>
 </body>
 </html>

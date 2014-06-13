@@ -62,8 +62,10 @@ div.oldestFoto, div.oldFoto, div.mainFoto{
 /*
  * PROFILE.html
  */
-#container {
+#canvasWrapper,  .webcamWrapper {
 	position: relative;
+	width: 480px;
+	margin: 0 auto;
 }
 
 #mainCanvas {
@@ -76,6 +78,17 @@ div.oldestFoto, div.oldFoto, div.mainFoto{
 	left: 0px;
 }
 
+.controls{
+	text-align: center;
+}
+
+/*
+ * FOTO.html
+ */
+ 
+.webcamHolder{
+	border-radius: 40px;
+}
 
 /*
  *	MEDIA QUERIES
@@ -110,7 +123,7 @@ div.oldestFoto, div.oldFoto, div.mainFoto{
 	}
 	
 	.latestFotos div.mainFoto {
-		width: 150px; 
+		width: 190px; 
 		margin: 0 auto;
 		overflow: visible;
 		-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.7)));
@@ -127,7 +140,7 @@ div.oldestFoto, div.oldFoto, div.mainFoto{
 		width: 150px;
 		height: 200px; 
 		background-color: #eee;
-		-webkit-transform: rotateY(-70deg);
+		-webkit-transform: rotateY(-80deg);
 		-webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.5)));
 	}
 	
